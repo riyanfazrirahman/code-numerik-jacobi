@@ -4,11 +4,20 @@ function createBarisKolomForm() {
   let col = 4;
 
   let html = `
-      <label for="row">Baris </label>
-      <input type="number" id="row" value="${row}" /> 
-      <label for="col">Kolom </label>
-      <input type="number" id="col" value="${col}" />
-      <button id="set">Set</button>
+  <table  class="w-100">
+  <tr>
+  <td class="w-50"><label for="row">Baris </label></td>
+  <td><input  class="w-100" type="number" id="row" value="${row}" /> </td>
+  </tr>
+  <tr>
+  <td><label for="col">Kolom </label></td>
+  <td><input  class="w-100" type="number" id="col" value="${col}" /></td>
+  </tr>
+  <tr>
+  <td></td>
+  <td> <button id="set" class="w-100 btn btn-primary">Set</button></td>
+  </tr>
+  </table>
     `;
 
   barisKolom.innerHTML = html;
@@ -22,10 +31,16 @@ function createIterationsAndToleranceForm() {
   );
 
   let html = `
-      <label for="maxIterations">Max Iterations </label>
-      <input type="number" id="maxIterations" value="1000" />
-      <label for="tolerance">Tolerance </label>
-      <input type="number" id="tolerance" value="0.0001" step="0.0001" />
+  <table class="w-100">
+  <tr>
+  <td class="w-50 ><label for="maxIterations">Max Iterations </label></td>
+  <td><input  class="w-100" type="number" id="maxIterations" value="1000" /></td>
+  </tr>
+  <tr>
+  <td> <label for="tolerance">Tolerance </label></td>
+  <td> <input  class="w-100" type="number" id="tolerance" value="0.0001" step="0.0001" /></td>
+  </tr>
+  </table>
     `;
 
   iterationsAndTolerance.innerHTML = html;
@@ -37,45 +52,28 @@ function createInputGrid() {
 
   let gridHtml = "";
 
+  gridHtml += "Matriks";
   for (let i = 1; i <= row; i++) {
-    gridHtml += '<div style="margin-top: 10px;">';
+    gridHtml += '<div class="mb-3">';
     for (let j = 1; j <= col; j++) {
       gridHtml += `<input style="width:70px" placeholder="a${i}(${j})" id="a${i}_${j}">`;
     }
     gridHtml += "</div>";
   }
+  gridHtml += '<div class="d-flex justify-content-between">';
   gridHtml +=
-    '<button id="showMatriks" style="margin-top: 10px;">Show Matriks</button>';
+    '<button id="showJacobi"  class="btn btn-primary me-1 w-100">Show Jacobi</button>';
   gridHtml +=
-    '<button id="showJacobi" style="margin-top: 10px;">Show Jacobi</button>';
-  gridHtml +=
-    '<button id="showGaussSeidel" style="margin-top: 10px;">Show Gauss Seidel</button>';
+    '<button id="showGaussSeidel"  class="btn btn-primary ms-1 w-100">Show Gauss Seidel</button>';
+  gridHtml += "</div>";
+  gridHtml += '<a href="" class="btn btn-danger w-100 mt-3">Reset</a>';
+
   document.getElementById("soal").innerHTML = gridHtml;
 
-  document
-    .getElementById("showMatriks")
-    .addEventListener("click", displayMatrix);
   document.getElementById("showJacobi").addEventListener("click", solveJacobi);
   document
     .getElementById("showGaussSeidel")
     .addEventListener("click", solveGaussSeidel);
-}
-
-function displayMatrix() {
-  let row = parseInt(document.getElementById("row").value);
-  let col = parseInt(document.getElementById("col").value);
-
-  let tableHtml = '<table border="1" style="border-collapse: collapse;">';
-  for (let i = 1; i <= row; i++) {
-    tableHtml += "<tr>";
-    for (let j = 1; j <= col; j++) {
-      let value = document.getElementById(`a${i}_${j}`).value;
-      tableHtml += `<td>${value}</td>`;
-    }
-    tableHtml += "</tr>";
-  }
-  tableHtml += "</table>";
-  document.getElementById("soal").innerHTML += tableHtml;
 }
 
 function solveJacobi() {
@@ -175,7 +173,7 @@ function converged(xOld, xNew, tolerance) {
 }
 
 function displayIterationTable(iterations, title) {
-  let tableHtml = `<h3>${title}</h3><table border="1" style="border-collapse: collapse;"><tr><th>Iterasi</th>`;
+  let tableHtml = `<h3 class="text-center mt-3">${title}</h3><div class="table-responsive"><table class="table table-bordered border-primary"><tr><th>Iterasi</th>`;
   for (let i = 0; i < iterations[0].x.length; i++) {
     tableHtml += `<th>X${i + 1}</th>`;
   }
@@ -195,7 +193,7 @@ function displayIterationTable(iterations, title) {
     tableHtml += `</tr>`;
   });
 
-  tableHtml += `</table>`;
+  tableHtml += `</table></div>`;
   document.getElementById("soal").innerHTML += tableHtml;
 }
 
